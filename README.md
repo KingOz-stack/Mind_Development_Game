@@ -37,7 +37,7 @@ This web application is designed to help users improve their focus and mindfulne
 
 ### Hosting/Deployment
 - **Netlify**: For frontend hosting.
-- **Heroku**: For backend deployment.
+- **AWS Lambda**: For backend deployment.
 - **MongoDB Atlas**: For cloud-hosted database.
 
 ### Collaborators/Teammates
