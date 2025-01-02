@@ -57,8 +57,8 @@ This web application is designed to help users improve their focus and mindfulne
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/mind-development-game.git
-   cd mind-development-game
+   git clone https://github.com/your-username/mind_development_game.git
+   cd mind_development_game
    ```
 2. Install dependencies for both frontend and backend:
    ```bash
