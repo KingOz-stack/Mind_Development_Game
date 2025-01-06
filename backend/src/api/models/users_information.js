@@ -10,7 +10,12 @@ const usersSchema = new mongoose.Schema({
         trim: true,
     },
 
-    full_name: {
+    first_name: {
+        type: String,
+        required: true,
+    },
+
+    last_name: {
         type: String,
         required: true,
     },
