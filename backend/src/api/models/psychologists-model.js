@@ -1,13 +1,7 @@
-import mongoose from 'mongoose';
+const mongoose  = require('mongoose');
 
-// Define the schema for the psychologists_information collection
-const psychologistsInformationSchema = new mongoose.Schema({
-    psychologist_id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-
+// Define the schema for the Psychologists collection
+const PsychologistSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -50,8 +44,8 @@ const psychologistsInformationSchema = new mongoose.Schema({
     }
 });
 
-// Create the psychologists_information model based on the schema for the "psychologists_information" collection
-const PsychologistsInformation = mongoose.model('PsychologistsInformation', psychologistsInformationSchema);
+// Create the Psychologist model based on the PsychologistSchema for the "psychologists" collection
+const Psychologist = mongoose.model('Psychologist', PsychologistSchema, 'psychologists');
 
-// export the psychologists_information model
-export default PsychologistsInformation;
+// export the Psychologist model
+module.exports = Psychologist;

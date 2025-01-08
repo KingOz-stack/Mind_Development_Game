@@ -1,15 +1,10 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 // Define the schema for the user_progress collection
 const userProgressSchema = new mongoose.Schema({
-    progress_id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-
     user_id: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
     },
 
@@ -53,4 +48,4 @@ const userProgressSchema = new mongoose.Schema({
 const UserProgress = mongoose.model('UserProgress', userProgressSchema);
 
 // export the user_progress model
-export default UserProgress;
+module.exports = UserProgress;

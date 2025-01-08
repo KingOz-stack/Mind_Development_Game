@@ -1,15 +1,11 @@
-import mongoose from 'mongoose';
+const mongoose  = require('mongoose');
+const { Schema } = mongoose;
 
 // Define the schema for the mood_responses collection
 const moodResponsesSchema = new mongoose.Schema({
-    response_id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
 
     user_id: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
     },
 
@@ -43,4 +39,4 @@ const moodResponsesSchema = new mongoose.Schema({
 const MoodResponses = mongoose.model('mood_responses', moodResponsesSchema);
 
 // export the mood_responses model
-export default MoodResponses;
+module.exports = MoodResponses;
