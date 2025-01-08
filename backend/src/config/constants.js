@@ -10,7 +10,7 @@ module.exports = {
   JWT_SECRET: process.env.JWT_SECRET || 'your-default-secret',
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-  DATABASE_NAME: process.env.DATABASE_NAME,
+  DATABASE_NAME: process.env.DATABASE_NAME || 'mindfulness-app',
   DATABASE_URL: process.env.DATABASE_URL || 'mongodb://localhost:27017/myapp',
   API_KEY: process.env.API_KEY,
   SMTP_HOST: process.env.SMTP_HOST,

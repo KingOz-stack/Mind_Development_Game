@@ -3,7 +3,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
-const { userExists, getUserById } = require('../api/services');
+const { userExists, getUserById, createUser, getUserByGoogleId } = require('../api/services');
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require('./constants');
 const JWT_SECRET = require('./constants').JWT_SECRET;
 
 require('dotenv').config();
@@ -61,32 +62,37 @@ passport.use(new JwtStrategy(jwtOptions, async (payload, done) => {
 
 
 // Google OAuth Strategy
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: 'YOUR_GOOGLE_CLIENT_ID',
-//       clientSecret: 'YOUR_GOOGLE_CLIENT_SECRET',
-//       callbackURL: '/api/auth/google/callback',
-//     },
-//     async (accessToken, refreshToken, profile, done) => {
-//       try {
-//         // Check if the user already exists
-//         let user = await getUserByGoogleId(profile.id)
-//         if (!user) {
-//           // Create a new user if not found
-//           // TODO: import the User model
-//           user = await createUser({
-//             first_name: profile.name.givenName,
-//             last_name: profile.name.familyName,
-//             email: profile.emails[0].value,
-//             googleId: profile.id,  // Use Google's unique ID
-//           });
-//         }
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: '/api/auth/patient/google/callback',
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
 
-//         return done(null, user);
-//       } catch (error) {
-//         return done(error);
-//       }
-//     }
-//   )
-// );
+        const birthdate = profile._json.birthday;
+        
+        // Check if the user already exists
+        let user = await getUserByGoogleId(profile.id)
+
+        if (!user) {
+          // Create a new user if not found
+          user = await createUser({
+            first_name: profile.name.givenName,
+            last_name: profile.name.familyName,
+            email: profile.emails[0].value,
+            googleId: profile.id,  // Use Google's unique ID
+            birth_date: birthdate,
+            joined_at: new Date(),
+          });
+        }
+
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);

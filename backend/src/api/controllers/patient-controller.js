@@ -7,9 +7,9 @@ const { JWT_SECRET, TOKEN_EXPIRATION } = require('../../config/constants');
 // patient registration controller
 exports.registerUser = async (req, res) => { 
   try {
-    const { first_name, last_name, email, password, age } = req.body;
-    console.log(first_name, last_name, email, password, age);
-    if (!first_name || !last_name || !email || !password || !age) {
+    const { first_name, last_name, email, password, birth_date } = req.body;
+    console.log(first_name, last_name, email, password, birth_date);
+    if (!first_name || !last_name || !email || !password) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -21,7 +21,7 @@ exports.registerUser = async (req, res) => {
     }
 
     // call the service to create a new user.
-    const newUser = await createUser({ first_name, last_name, email, password, age });
+    const newUser = await createUser({ first_name, last_name, email, password, birth_date });
 
     const token = jwt.sign({ user_id: newUser._id }, JWT_SECRET, { expiresIn: TOKEN_EXPIRATION });   // generate an auth token
 
@@ -45,12 +45,16 @@ exports.loginUser = (req, res) => {
 };
 
 
-// // Google OAuth Callback Controller
-// exports.googleCallbackController = (req, res) => {
-//   const token = jwt.sign({ id: req.user.id, username: req.user.username }, 'your_jwt_secret', { expiresIn: '1h' });
-//   res.cookie('token', token, { httpOnly: true });
-//   res.redirect('/dashboard');
-// };
+// Patient Google OAuth Callback Controller
+exports.googleCallbackController = (req, res) => {
+  const token = jwt.sign({ id: req.user.id, username: req.user.username }, JWT_SECRET, { expiresIn: TOKEN_EXPIRATION });
+  res.status(200).json({ 
+    message: 'Google Login successful', 
+    redirectUrl: '/dashboard', 
+    access_token: token, 
+  });
+
+};
 
 
 // // patient logout controller

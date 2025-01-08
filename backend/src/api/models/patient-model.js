@@ -27,8 +27,16 @@ const patientSchema = new mongoose.Schema({
         type: String,
     },
 
-    age: {
-        type: Number,
+    birth_date: {
+        type: Date,
+        required: false, // This field is optional
+        validate: {
+            validator: function (value) {
+                // Ensure the birth_date is in the past
+                return value && value < new Date();
+            },
+            message: 'Birth date must be in the past.',
+        },
     },
 
     googleId: {

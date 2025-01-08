@@ -1,27 +1,27 @@
 const { Patient } = require('../models');
 
-exports.createUser = async (user) => {
+exports.createUser = async (patient) => {
     try {
 
-        const newUser = new Patient({...user, joined_at: new Date()});
-        await newUser.save();
-
-        return newUser;
+        const newPatient = new Patient({...patient, joined_at: new Date()});
+        await newPatient.save();
+        console.log('Test patient saved:', newPatient);
+        return newPatient;
 
     } catch (error) {
         // re-throw the error to the parent function
-        throw new Error('Error creating user: ' + error.message);
+        throw new Error('Error creating a new patient: ' + error.message);
     }
 }
 
 // check if a user exists.
 exports.userExists = async (email) => {
     try {
-        const user = await Patient.findOne({
+        const patient = await Patient.findOne({
             email: email
         });
     
-        return user;
+        return patient;
 
     } catch (error) {
         // re-throw the error to the parent function

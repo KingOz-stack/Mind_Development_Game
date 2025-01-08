@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const { registerUser, loginUser } = require('../controllers/patient-controller');
+const { registerUser, loginUser, googleCallbackController } = require('../controllers/patient-controller');
 
 const router = express.Router();
 
@@ -16,11 +16,17 @@ router.post(
   loginUser
 );
 
-// Patient Google OAuth Routes
-// router.get('/patient/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-// router.get('/patient/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), googleCallbackController);
+// Patient Google OAuth Routes(for both login and signup)
+router.get('/patient/google', 
+  passport.authenticate('google', 
+    { scope: ['profile', 'email', 'https://www.googleapis.com/auth/user.birthday.read',] }
+  )
+);
 
-
+router.get('/patient/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }), 
+  googleCallbackController
+);
 
 
 // Logout Route

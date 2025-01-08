@@ -10,6 +10,7 @@ const db_connection = () =>  {
             dbName: DATABASE_NAME
         })
         .then(connection => {
+            // console.log(connection);
             resolve(connection);
         })
         .catch( error => {
@@ -19,4 +20,4 @@ const db_connection = () =>  {
     });
 }
 
-module.exports = db_connection;
+module.exports = db_connection; 
